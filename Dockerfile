@@ -1,10 +1,26 @@
-# For Java 11, try this
-FROM adoptopenjdk/openjdk11:alpine-jre
+# Maven build container 
 
-FROM openjdk:11
+FROM maven:3.6.3-openjdk-11 AS maven_build
 
-COPY target/restapi-0.0.1-SNAPSHOT.jar app.jar
+COPY pom.xml /tmp/
 
+COPY src /tmp/src/
+
+WORKDIR /tmp/
+
+RUN mvn package
+
+#pull base image
+
+FROM openjdk
+
+
+#expose port 8080
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+#default command
+CMD java -jar /data/restapi-0.1.0.jar
+
+#copy hello world to docker image from builder image
+
+COPY --from=maven_build /tmp/target/restapi-0.1.0.jar /data/restapi-0.1.0.jar
