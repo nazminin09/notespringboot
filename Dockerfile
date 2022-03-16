@@ -20,7 +20,3 @@ EXPOSE 8080
 
 #default command
 CMD java -jar /data/restapi-0.1.0.jar
-
-#copy hello world to docker image from builder image
-
-COPY --from=maven_build /tmp/target/restapi-0.1.0.jar /data/restapi-0.1.0.jar
