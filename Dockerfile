@@ -1,18 +1,10 @@
 # For Java 11, try this
 FROM adoptopenjdk/openjdk11:alpine-jre
 
-# Refer to Maven build -> finalName
-ARG JAR_FILE=target/spring-boot-web.jar
-
-# cd /opt/app
-WORKDIR /opt/app
-
-# cp target/spring-boot-web.jar /opt/app/app.jar
-COPY ${JAR_FILE} app.jar
-
-# java -jar /opt/app/app.jar
-
-EXPOSE 8080
-
-# java -jar /opt/app/app.jar
-ENTRYPOINT ["java","-jar","app.jar"]
+VOLUME /tmp
+ARG EXTRACTED=/workspace/app/target/extracted
+COPY ${EXTRACTED}/dependencies/ ./
+COPY ${EXTRACTED}/spring-boot-loader/ ./
+COPY ${EXTRACTED}/snapshot-dependencies/ ./
+COPY ${EXTRACTED}/application/ ./
+ENTRYPOINT ["java","org.springframework.boot.loader.JarLauncher"]
