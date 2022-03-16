@@ -18,5 +18,5 @@ FROM openjdk
 #expose port 8080
 EXPOSE 8080
 
-#default command
-CMD java -jar /data/restapi-0.1.0.jar
+
+ENTRYPOINT ["java","-cp","app:app/lib/*","RestapiApplication.Application"]
