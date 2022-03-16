@@ -1,10 +1,10 @@
 # For Java 11, try this
 FROM adoptopenjdk/openjdk11:alpine-jre
 
-VOLUME /tmp
-ARG EXTRACTED=/workspace/app/target/extracted
-COPY ${EXTRACTED}/dependencies/ ./
-COPY ${EXTRACTED}/spring-boot-loader/ ./
-COPY ${EXTRACTED}/snapshot-dependencies/ ./
-COPY ${EXTRACTED}/application/ ./
-ENTRYPOINT ["java","org.springframework.boot.loader.JarLauncher"]
+FROM openjdk:11
+
+COPY target/restapi-0.0.1-SNAPSHOT.jar app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "/app.jar"]
