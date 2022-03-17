@@ -12,6 +12,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>restapi</name>
 	<description>Demo project for Spring Boot</description>
+	<!-- define the packaging type -->
+	<packaging>jar</packaging>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
