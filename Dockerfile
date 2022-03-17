@@ -1,22 +1,22 @@
-# Maven build container 
+# AS <NAME> to name this stage as maven
+FROM maven:3.6.3 AS maven
+LABEL MAINTAINER="nazminordin1999@gmail.com"
 
-FROM maven:3.6.3-openjdk-11 AS maven_build
+WORKDIR /usr/src/app
+COPY . /usr/src/app
+# Compile and package the application to an executable JAR
+RUN mvn package 
 
-COPY pom.xml /tmp/
+# For Java 11, 
+FROM adoptopenjdk/openjdk11:alpine-jre
 
-COPY src /tmp/src/
+ARG JAR_FILE=restapi.jar
 
-WORKDIR /tmp/
+WORKDIR /opt/app
 
-RUN mvn package
+# Copy the spring-boot-api-tutorial.jar from the maven stage to the /opt/app directory of the current stage.
+COPY --from=maven /usr/src/app/target/${JAR_FILE} /opt/app/
 
-#pull base image
-
-FROM openjdk
-
-
-#expose port 8080
 EXPOSE 8080
 
-
-ENTRYPOINT ["java","-cp","app:app/lib/*","RestapiApplication.Application"]
+ENTRYPOINT ["java","-jar","restapi.jar"]

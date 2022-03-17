@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-
+//@RestController annotation is a combination of Spring’s @Controller and @ResponseBody annotations.
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api") 
 public class NoteController {
 
     @Autowired
     NoteRepository noteRepository;
 
-    @GetMapping("/notes")
+    @GetMapping("/notes") //or boleh buat @RequestMapping(value="/notes", method=RequestMethod.GET).
     public List<Note> getAllNotes() {
         return noteRepository.findAll();
     }
-
+    //The @RequestBody annotation is used to bind the request body with a method parameter.
     @PostMapping("/notes")
     public Note createNote(@Valid @RequestBody Note note) {
         return noteRepository.save(note);

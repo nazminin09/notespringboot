@@ -8,18 +8,21 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
-
+//@entitymark the class as persistent java
 @Entity
+//@table provide details of table to the entity connected to create table names notes in scehma
 @Table(name = "notes")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
 allowGetters = true)
 
 public class Note {
+    //@id define primary key
+    //@generatedvalue = define how the primary key generate strategy for example here auto increment
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    //@notBlank validate it is not null kind of column
     @NotBlank
     private String title;
 
@@ -30,7 +33,7 @@ public class Note {
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date createdAt;
-
+    //@Temporal annotation is used with java.util.Date and java.util.Calendar classes. It converts the date and time values from Java Object to compatible database type and vice versa.
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
