@@ -3,7 +3,7 @@ package com.restapi.restapi.controller;
 import com.restapi.restapi.exception.ResourceNotFoundException;
 import com.restapi.restapi.model.Note;
 import com.restapi.restapi.repository.NoteRepository;
-
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,28 +12,33 @@ import java.util.List;
 
 //@RestController annotation is a combination of Spring’s @Controller and @ResponseBody annotations.
 @RestController
-@RequestMapping("/api") 
+@RequestMapping("/api/v1") 
+@Api(value = "Note Controller", description = "Operations pertaining to Note in Note Application", produces = "application/json")
 public class NoteController {
 
     @Autowired
     NoteRepository noteRepository;
 
+    @ApiOperation(value = "View a list of available notes", produces = "application/json")
     @GetMapping("/notes") //or boleh buat @RequestMapping(value="/notes", method=RequestMethod.GET).
     public List<Note> getAllNotes() {
         return noteRepository.findAll();
     }
     //The @RequestBody annotation is used to bind the request body with a method parameter.
+    @ApiOperation(value = "Create a new note", response = Note.class, consumes = "application/json")
     @PostMapping("/notes")
-    public Note createNote(@Valid @RequestBody Note note) {
+    public Note createNote(@ApiParam(name ="title", value = "String", required = true)  @Valid @RequestBody Note note) {
         return noteRepository.save(note);
     }
 
+    @ApiOperation(value = "View a note by id", produces = "application/json")
     @GetMapping("/notes/{id}")
     public Note getNoteById(@PathVariable(value = "id") Long noteId) {
         return noteRepository.findById(noteId)
                 .orElseThrow(() -> new ResourceNotFoundException("Note", "id", noteId));
     }
 
+    @ApiOperation(value = "Update a note by id", produces = "application/json")
     @PutMapping("/notes/{id}")
     public Note updateNote(@PathVariable(value = "id") Long noteId,
                                            @Valid @RequestBody Note noteDetails) {

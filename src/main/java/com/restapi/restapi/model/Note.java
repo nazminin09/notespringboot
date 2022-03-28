@@ -5,10 +5,10 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+// import lombok.AllArgsConstructor;
+// import lombok.Builder;
+// import lombok.Data;
+// import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -20,10 +20,11 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
 allowGetters = true)
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+//for test
+// @Data
+// @NoArgsConstructor
+// @AllArgsConstructor
+// @Builder
 public class Note {
     //@id define primary key
     //@generatedvalue = define how the primary key generate strategy for example here auto increment
@@ -46,13 +47,13 @@ public class Note {
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private Date updatedAt;
-
-    public Note(long i, String string, String string2) {
-        // super();
-        this.id = i;
-        this.title = string;
-        this.content = string2;
-    }
+    //this is for test
+    // public Note(long i, String string, String string2) {
+    //     // super();
+    //     this.id = i;
+    //     this.title = string;
+    //     this.content = string2;
+    // }
 
     public Long getId() {
         return id;
