@@ -7,6 +7,8 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -24,6 +26,24 @@ public class NoteController {
     public List<Note> getAllNotes() {
         return noteRepository.findAll();
     }
+
+    @GetMapping("/country/{country}")
+    public String getCountry(@PathVariable(value = "country") String country) {
+        RestTemplate restTemplate = new RestTemplate();
+        String fooResourceUrl = "https://api-nazmi-test-nazmi-project.apps.ocp.tmrnd.com.my/country/" + country;
+        ResponseEntity<String> response = restTemplate.getForEntity(fooResourceUrl, String.class);
+        String body = response.getBody();
+        return body;
+    }
+    @GetMapping("/home")
+    public String getHome() {
+        RestTemplate restTemplate = new RestTemplate();
+        String fooResourceUrl = "http://10.10.44.26:8080/";
+        ResponseEntity<String> response = restTemplate.getForEntity(fooResourceUrl, String.class);
+        String body = response.getBody();
+        return body;
+    }
+
     //The @RequestBody annotation is used to bind the request body with a method parameter.
     @ApiOperation(value = "Create a new note", response = Note.class, consumes = "application/json")
     @PostMapping("/notes")
