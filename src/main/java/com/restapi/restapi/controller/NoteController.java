@@ -30,7 +30,7 @@ public class NoteController {
     @GetMapping("/country/{country}")
     public String getCountry(@PathVariable(value = "country") String country) {
         RestTemplate restTemplate = new RestTemplate();
-        String fooResourceUrl = "https://api-nazmi-test-nazmi-project.apps.ocp.tmrnd.com.my/country/" + country;
+        String fooResourceUrl = "http://172.16.147.52:8080/country/" + country;
         ResponseEntity<String> response = restTemplate.getForEntity(fooResourceUrl, String.class);
         String body = response.getBody();
         return body;
@@ -38,7 +38,7 @@ public class NoteController {
     @GetMapping("/home")
     public String getHome() {
         RestTemplate restTemplate = new RestTemplate();
-        String fooResourceUrl = "http://10.10.44.26:8080/";
+        String fooResourceUrl = "http://172.16.58.120:8080/";
         ResponseEntity<String> response = restTemplate.getForEntity(fooResourceUrl, String.class);
         String body = response.getBody();
         return body;
